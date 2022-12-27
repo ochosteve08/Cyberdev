@@ -1,8 +1,8 @@
+import { Link } from "react-router-dom";
 
 
 const BlogList =(props)=>{
 
-    
     let blogs = props.blog;
     let heads = props.head;
     let header = document.getElementById("header");
@@ -12,11 +12,15 @@ const BlogList =(props)=>{
         header.innerHTML= "nothing to show";}
     
      const list= blogs.map((blog) => {
-             let {id,title,body,author}= blog;
-        return( <div className="blog-list" key={id}>
+             let {id,title,author}= blog;
+        return( 
+        
+        <div className="blog-list" key={id}>
            
-            <h2>{title} </h2>
-            <p>{body} </p>
+           <Link to={`/blogs/${id}`} > 
+             <h2>{title} </h2>
+           </Link>
+          
             <p>written by {author} </p>
            
         </div>
@@ -24,6 +28,7 @@ const BlogList =(props)=>{
       return (
      <div>
          <h2 id="header">{heads} </h2>
+         
           {list}
       </div>
     );

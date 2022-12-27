@@ -8,31 +8,43 @@ const useFetch =(url)=>{
     const [error, setError] = useState(null);
 
     useEffect(()=>{
-   
-         fetch( url)
-            .then(res =>{
-                if (!res.ok){
-                    throw Error("something is wrong the the endpoint connection")
-                }
-                
-                return res.json();
-            })
-            .then((data)=>{
-            
-                setData(data);
-                setIsLoading(false);
-                setError(null);
 
-            })
-            .catch(err=>{
+        const abortControls = new AbortController();
+   
+       
+
+             fetch( url, {signal: abortControls.signal })
+            .then(res =>{
+                            if (!res.ok){
+                                throw Error("something is wrong  the endpoint connection")
+                            }
+                            
+                            return res.json();
+                       })
+            .then((data)=> {
             
-                setError(err.message);
-                setIsLoading(false);
-            })
+                                setData(data);
+                                setIsLoading(false);
+                                setError(null);
+
+                           })
+            .catch(err=>{
+
+                            if (err.name === 'AbortError'){
+                                console.log("fetch aborted")
+                                 }
+                            else {
+                                    setError(err.message);
+                                    setIsLoading(false);
+                                }
+                        })
+
+
+            return ()=> abortControls.abort() ;
 
     },[url]);
 
-    return {data, error, isLoading}
+             return {data, error, isLoading}
 
 };
 

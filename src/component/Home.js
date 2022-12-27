@@ -1,5 +1,5 @@
-import useFetch from '../useFetch';
-import BlogList from './BlogList';
+import useFetch from './useFetch'
+import BlogList from './BlogList'
 
 const Home = () => {
 
@@ -10,8 +10,8 @@ const Home = () => {
     return (
         <div className="page">
 
-        {error && <div>Sorry, the page could not correctly</div> }
-        {isLoading && <div>page is loading.......</div> }
+      {error && <div>{error}</div> }
+        {isLoading && <div>page is loading.......</div>}
         {blogs && <BlogList
                     blog={blogs}
                     head={"REACT ROCKS!"}

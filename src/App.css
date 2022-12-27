@@ -39,3 +39,29 @@
 .blog-list h2{
   color:red;
 }
+.blog-list a{
+  text-decoration: none;
+}
+
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 30px;
+}
+
+.link{
+  display: flex;
+  gap: 50px;
+  width: 40%;
+  
+}
+.link li{
+  list-style: none;
+}
+
+.link li a{
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
