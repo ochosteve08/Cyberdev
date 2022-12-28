@@ -48,6 +48,14 @@
   justify-content: space-between;
   align-items: center;
   margin: 10px 30px;
+ 
+  width: 100%;
+}
+
+.navbar a{
+  text-decoration: none;
+  color: black;
+
 }
 
 .link{
@@ -64,4 +72,41 @@
   text-decoration: none;
   color: black;
   font-weight: 500;
+}
+
+.create{
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  
+}
+
+.create h2{
+  color: red;
+  margin-bottom: 40px;
+  font-size: 28px;
+}
+
+.create label{
+  display: block;
+  text-align: left;
+}
+
+.create input, .create select, .create textarea{
+  width: 100%;
+  margin: 10px 0;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  display: block;
+}
+
+.create button{
+  background: red;
+  width: 30%;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  cursor: pointer;
 }

@@ -16,7 +16,7 @@ const useFetch =(url)=>{
              fetch( url, {signal: abortControls.signal })
             .then(res =>{
                             if (!res.ok){
-                                throw Error("something is wrong  the endpoint connection")
+                                throw Error("something is wrong, check the endpoint connection...")
                             }
                             
                             return res.json();

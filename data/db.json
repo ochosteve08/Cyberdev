@@ -1,22 +1,22 @@
 {
-    "blogs": [
-        {
-            "id": 1, 
-            "title": "my blog", 
-            "body": "this is wonderful", 
-            "author": "sam"
-        },
-        {
-            "id": 2, 
-            "title": "welcome party", 
-            "body": "this is wonderful", 
-            "author": "paul"
-        },
-        {
-            "id": 3, 
-            "title": "web development", 
-            "body": "going to school", 
-            "author": "happy"
-        }
-    ]
+  "blogs": [
+    {
+      "id": 1,
+      "title": "my blog",
+      "body": "this is wonderful",
+      "author": "sam"
+    },
+    {
+      "id": 2,
+      "title": "welcome party",
+      "body": "this is wonderful",
+      "author": "paul"
+    },
+    {
+      "id": 3,
+      "title": "web development",
+      "body": "going to school",
+      "author": "happy"
+    }
+  ]
 }
