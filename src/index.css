@@ -21,13 +21,6 @@ body {
   padding: 0 10% 10%;
 }
 
-input,
-textarea,
-button,
-select {
-  font: inherit;
-  margin-bottom: 1em;
-}
 
 main {
   max-width: 500px;
