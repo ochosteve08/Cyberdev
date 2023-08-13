@@ -3,9 +3,8 @@ const App = () => {
  
 
   return (
-    <main>
-    
-    <Counter/>
+    <main className="text-3xl font-bold ">
+      <Counter />
     </main>
   );
 };
