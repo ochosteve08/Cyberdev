@@ -1,10 +1,11 @@
-import Counter from "./features/counter/Counter";
+import PostList from "./features/posts/PostList";
+
 const App = () => {
  
 
   return (
-    <main className="text-3xl font-bold ">
-      <Counter />
+    <main className=" ">
+     <PostList/>
     </main>
   );
 };
