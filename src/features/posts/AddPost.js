@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { nanoid } from "@reduxjs/toolkit";
 import { addPost } from "./postSlice";
 
 const AddPost = () => {
@@ -12,11 +11,7 @@ const AddPost = () => {
     event.preventDefault();
     if (title && content) {
       dispatch(
-        addPost({
-          id: nanoid(),
-          title,
-          content,
-        })
+        addPost(title,content)
       );
     }
 
