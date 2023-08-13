@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
 import { allUsers } from "../users/userSlice";
 
-const PostAuthor = ({userId}) => {
+const PostAuthor = ({ userId }) => {
   const users = useSelector(allUsers);
- const author = users.find(user => user.id === userId)
- console.log(author);
+  const author = users.find((user) => user.id === userId);
+ 
 
-
-  return <span>By {author? author.name : "unknown author" }</span>;
+  return <span>By {author ? author.name : "Unknown author"}</span>;
 };
 
 export default PostAuthor;
