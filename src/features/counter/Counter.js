@@ -14,10 +14,17 @@ const Counter = () => {
   const [amount, setAmount] = useState("");
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center gap-4">
       <p>count: {count}</p>
-      <div>
+      <input
+      className="outline outline-slate-300 rounded-md"
+        type="text"
+        value={amount}
+        onChange={(event) => setAmount(event.target.value)}
+      />
+      <div className="flex flex-col space-y-6">
         <button
+          className="p-2 bg-green-400 rounded-xl text-md "
           onClick={() => {
             dispatch(increment());
           }}
@@ -38,11 +45,7 @@ const Counter = () => {
         >
           decrement
         </button>
-        <input
-          type="text"
-          value={amount}
-          onChange={(event) => setAmount(event.target.value)}
-        />
+
         <button
           onClick={() => {
             dispatch(incrementByAmount(Number(amount)));
