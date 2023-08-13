@@ -1,11 +1,11 @@
-
+import Counter from "./features/counter/Counter";
 const App = () => {
  
 
   return (
     <main>
     
-    hello
+    <Counter/>
     </main>
   );
 };
