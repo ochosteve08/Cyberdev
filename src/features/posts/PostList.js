@@ -10,7 +10,7 @@ const PostList = () => {
   const { posts } = useSelector(allPosts);
   const status = useSelector(allPostsStatus);
   const error = useSelector(allPostsError);
-  console.log(posts);
+
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchPosts());
@@ -30,13 +30,8 @@ const PostList = () => {
   } else if (status === "failed") {
     content = <p>{error}</p>;
   }
-
-  return (
-    <section>
-      <h2 className="text-3xl font-bold">Posts</h2>
-      {content}
-    </section>
-  );
+ 
+  return <section>{content}</section>;
 };
 
 export default PostList;
