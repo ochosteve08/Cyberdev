@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewPost } from "./postSlice";
 import { allUsers } from "../users/userSlice";
-
+import { useNavigate } from "react-router-dom";
 const AddPost = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -11,7 +12,6 @@ const AddPost = () => {
   const users = useSelector(allUsers);
   const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
- 
   const canSave =
     [title, content, userId].every(Boolean) && addRequestStatus === "idle";
 
@@ -30,6 +30,7 @@ const AddPost = () => {
         setAddRequestStatus("idle");
       }
     }
+    navigate("/");
   };
   const userOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
@@ -53,7 +54,7 @@ const AddPost = () => {
 
         <label htmlFor="author">Author:</label>
         <select
-        className="text-black"
+          className="text-black"
           name="author"
           id="author"
           value={userId}

@@ -95,13 +95,12 @@ const postSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
-                const sortedPosts = state.posts.sort((a, b) => {
-                  if (a.id > b.id) return 1;
-                  if (a.id < b.id) return -1;
-                  return 0;
-                });
-                action.payload.id = sortedPosts[sortedPosts.length - 1].id + 1;
-
+        const sortedPosts = state.posts.sort((a, b) => {
+          if (a.id > b.id) return 1;
+          if (a.id < b.id) return -1;
+          return 0;
+        });
+        action.payload.id = sortedPosts[sortedPosts.length - 1].id + 1;
 
         action.payload.userId = Number(action.payload.userId);
         action.payload.date = new Date().toISOString();
@@ -113,7 +112,7 @@ const postSlice = createSlice({
           eyes: 0,
         };
         console.log(action.payload);
-         state.posts.push(action.payload);
+        state.posts.push(action.payload);
       });
   },
 });
@@ -122,4 +121,7 @@ export default postSlice.reducer;
 export const allPosts = (state) => state.posts;
 export const allPostsStatus = (state) => state.posts.status;
 export const allPostsError = (state) => state.posts.error;
+export const selectPostById = (state, postId) =>
+  state.posts.posts.find((post) => post.id === postId);
+
 export const { addPost, reactionsAdded } = postSlice.actions;
