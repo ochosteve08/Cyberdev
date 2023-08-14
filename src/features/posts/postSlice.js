@@ -36,7 +36,8 @@ export const UpdatePost = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return error.message;
+      // return error.message;
+      return initialPost  //only for testing redux
     }
   }
 );
