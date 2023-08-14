@@ -18,8 +18,9 @@ export const addNewPost = createAsyncThunk(
   "posts/addNewPosts",
   async (initialPost) => {
     try {
+      console.log(initialPost);
       const response = await axios.post(POST_URL, initialPost);
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       return error.message;
