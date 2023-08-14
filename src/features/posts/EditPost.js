@@ -51,7 +51,7 @@ const EditPost = () => {
       }
     }
     navigate(`/post/${postId}`);
-    // navigate("/");
+ 
   };
   const userOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
