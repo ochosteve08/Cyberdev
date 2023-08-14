@@ -12,11 +12,11 @@ const PostExcerpt = ({ post }) => {
       <Link to={`/post/${post.id}`} className="text-red-500 italic underline">
         Read more..
       </Link>
-      <p>
+      <div>
         <PostAuthor userId={post.userId} />
         <TimeAgo timestamp={post.date} />
         <ReactionButtons post={post} />
-      </p>
+      </div>
     </article>
   );
 };
