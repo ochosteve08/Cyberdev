@@ -11,8 +11,6 @@ const PostList = () => {
   const status = useSelector(allPostsStatus);
   const error = useSelector(allPostsError);
 
-  console.log(posts);
-
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchPosts());
@@ -26,7 +24,9 @@ const PostList = () => {
     const orderedPosts = posts
       .slice()
       .sort((a, b) => b.date.localeCompare(a.date));
-    content = orderedPosts.map((post,index) => <PostExcerpt key={index} post={post} />);
+    content = orderedPosts.map((post, index) => (
+      <PostExcerpt key={index} post={post} />
+    ));
   } else if (status === "failed") {
     content = <p>{error}</p>;
   }

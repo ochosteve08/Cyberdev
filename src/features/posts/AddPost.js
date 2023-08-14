@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "./postSlice";
+import { addNewPost } from "./postSlice";
 import { allUsers } from "../users/userSlice";
 
 const AddPost = () => {
@@ -9,23 +9,34 @@ const AddPost = () => {
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
   const users = useSelector(allUsers);
+  const [addRequestStatus, setAddRequestStatus] = useState("idle");
+
+ 
+  const canSave =
+    [title, content, userId].every(Boolean) && addRequestStatus === "idle";
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (title && content) {
-      dispatch(addPost(title, content, userId));
+    if (canSave) {
+      try {
+        setAddRequestStatus("pending");
+        dispatch(addNewPost({ title, body: content, userId })).unwrap();
+        setTitle("");
+        setContent("");
+        setUserId("");
+      } catch (error) {
+        console.error("failed to save post", error);
+      } finally {
+        setAddRequestStatus("idle");
+      }
     }
-
-    setContent("");
-    setTitle("");
   };
   const userOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
       {user.name}
     </option>
-      ));
+  ));
 
-      const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
   return (
     <section>
       <h2 className="text-3xl font-bold">Add a new post</h2>
@@ -42,6 +53,7 @@ const AddPost = () => {
 
         <label htmlFor="author">Author:</label>
         <select
+        className="text-black"
           name="author"
           id="author"
           value={userId}
