@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import EditPost from "./features/posts/EditPost";
 import UsersList from "./features/users/UsersList";
 import UserPage from "./features/users/UserPage";
-
+import { Navigate } from "react-router-dom";
 const App = () => {
   return (
     <Routes>
@@ -22,6 +22,7 @@ const App = () => {
           <Route path=":userId" element={<UserPage />} />
         </Route>
       </Route>
+      <Route path="*" element={<Navigate to={"/"} replace />} />
     </Routes>
   );
 };
