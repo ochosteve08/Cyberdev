@@ -13,12 +13,10 @@ const UsersList = () => {
     ))
   return (
     <section>
-        <h2>Users</h2>
-        <ul>
-            {renderedUsers}
-        </ul>
+      <h2>Users</h2>
+      <ul className="list-disc">{renderedUsers}</ul>
     </section>
-  )
+  );
 }
 
 export default UsersList

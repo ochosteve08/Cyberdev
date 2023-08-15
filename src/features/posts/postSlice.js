@@ -1,9 +1,21 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+
+} from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 import axios from "axios";
 
 const POST_URL = "https://jsonplaceholder.typicode.com/posts";
 
+
+
+const initialState = {
+  posts: [],
+  status: "idle",
+  error: null,
+  count: 0,
+};
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
     const response = await axios.get(POST_URL);
@@ -37,7 +49,7 @@ export const UpdatePost = createAsyncThunk(
       return response.data;
     } catch (error) {
       // return error.message;
-      return initialPost  //only for testing redux
+      return initialPost; //only for testing redux
     }
   }
 );
@@ -56,45 +68,19 @@ export const DeletePost = createAsyncThunk(
   }
 );
 
-const initialState = {
-  posts: [],
-  status: "idle",
-  error: null,
-};
-
 const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    addPost: {
-      reducer(state, action) {
-        state.posts.push(action.payload);
-      },
-      prepare(title, content, userId) {
-        return {
-          payload: {
-            id: nanoid(),
-            title,
-            content,
-            userId,
-            date: new Date().toISOString(),
-            reactions: {
-              thumbsUp: 0,
-              hooray: 0,
-              heart: 0,
-              rocket: 0,
-              eyes: 0,
-            },
-          },
-        };
-      },
-    },
     reactionsAdded: (state, action) => {
       const { postId, reaction } = action.payload;
       const existingPost = state.posts.find((post) => post.id === postId);
       if (existingPost) {
         existingPost.reactions[reaction]++;
       }
+    },
+    increaseCount: (state) => {
+      state.count = state.count + 1;
     },
   },
   extraReducers: (builder) => {
@@ -169,10 +155,12 @@ const postSlice = createSlice({
 });
 
 export default postSlice.reducer;
-export const allPosts = (state) => state.posts;
+export const allPosts = (state) => state.posts.posts;
+
 export const allPostsStatus = (state) => state.posts.status;
 export const allPostsError = (state) => state.posts.error;
+export const getCount = (state) => state.posts.count;
 export const selectPostById = (state, postId) =>
   state.posts.posts.find((post) => post.id === postId);
 
-export const { addPost, reactionsAdded } = postSlice.actions;
+export const { reactionsAdded, increaseCount } = postSlice.actions;

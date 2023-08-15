@@ -12,13 +12,13 @@ const PostExcerpt = ({ post }) => {
       <Link to={`/post/${post.id}`} className="text-red-500 italic underline">
         Read more..
       </Link>
-      <div>
+      <di>
         <PostAuthor userId={post.userId} />
         <TimeAgo timestamp={post.date} />
         <ReactionButtons post={post} />
-      </div>
+      </di>
     </article>
   );
 };
 
-export default PostExcerpt;
+export default React.memo(PostExcerpt);

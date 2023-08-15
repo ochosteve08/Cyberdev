@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { allPosts, allPostsError, allPostsStatus } from "./postSlice";
 import PostExcerpt from "./PostExcerpt";
 const PostList = () => {
-  const { posts } = useSelector(allPosts);
+  const posts = useSelector(allPosts);
   const status = useSelector(allPostsStatus);
   const error = useSelector(allPostsError);
 

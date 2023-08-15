@@ -7,8 +7,9 @@ import { allPosts } from "../posts/postSlice";
 const UserPage = () => {
   const { userId } = useParams();
   const user = useSelector((state) => selectUserById(state, Number(userId)));
+
   const postsForUser = useSelector((state) => {
-    const { posts } = allPosts(state);
+    const posts = allPosts(state);
     return posts.filter((post) => post.userId === Number(userId));
   });
 
@@ -21,14 +22,16 @@ const UserPage = () => {
   }
   const postTitles = postsForUser.map((post) => (
     <li key={post.id}>
-      <Link to={`/post/${post.id}`}> {post.title}</Link>
+      <Link className="underline pl-4 " to={`/post/${post.id}`}>
+        {post.title}
+      </Link>
     </li>
   ));
 
   return (
     <section>
       <h2>{user?.name}</h2>
-      <ol>{postTitles}</ol>
+      <ol class="list-decimal list-inside ">{postTitles}</ol>
     </section>
   );
 };
