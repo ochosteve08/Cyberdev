@@ -4,7 +4,7 @@ import ReactionButtons from "./ReactionButtons";
 import { Link } from "react-router-dom";
 import React from "react";
 
-let PostExcerpt = ({ post }) => {
+const PostExcerpt = ({ post }) => {
   return (
     <article>
       <h3 className="font-bold text-2xl">{post.title}</h3>
@@ -12,14 +12,13 @@ let PostExcerpt = ({ post }) => {
       <Link to={`/post/${post.id}`} className="text-red-500 italic underline">
         Read more..
       </Link>
-      <div>
+      <di>
         <PostAuthor userId={post.userId} />
         <TimeAgo timestamp={post.date} />
         <ReactionButtons post={post} />
-      </div>
+      </di>
     </article>
   );
 };
 
-PostExcerpt = React.memo(PostExcerpt);
-export default PostExcerpt;
+export default React.memo(PostExcerpt);
