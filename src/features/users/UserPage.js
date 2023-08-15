@@ -11,9 +11,14 @@ const UserPage = () => {
     const { posts } = allPosts(state);
     return posts.filter((post) => post.userId === Number(userId));
   });
-  console.log(postsForUser);
-  console.log(user);
 
+  if (!user) {
+    return (
+      <section>
+        <h1>User not found</h1>
+      </section>
+    );
+  }
   const postTitles = postsForUser.map((post) => (
     <li key={post.id}>
       <Link to={`/post/${post.id}`}> {post.title}</Link>
