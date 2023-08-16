@@ -1,21 +1,22 @@
 import {
   createSlice,
   createAsyncThunk,
-
+  createSelector,
+  createEntityAdapter,
 } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 import axios from "axios";
 
 const POST_URL = "https://jsonplaceholder.typicode.com/posts";
+const postAdapter = createEntityAdapter({
+  sortComparer: (a, b) => a.date.localeCompare(b.date),
+});
 
-
-
-const initialState = {
-  posts: [],
+const initialState = postAdapter.getInitialState({
   status: "idle",
   error: null,
   count: 0,
-};
+});
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
     const response = await axios.get(POST_URL);
@@ -74,7 +75,7 @@ const postSlice = createSlice({
   reducers: {
     reactionsAdded: (state, action) => {
       const { postId, reaction } = action.payload;
-      const existingPost = state.posts.find((post) => post.id === postId);
+      const existingPost = state.entities[postId];
       if (existingPost) {
         existingPost.reactions[reaction]++;
       }
@@ -103,7 +104,7 @@ const postSlice = createSlice({
           };
           return post;
         });
-        state.posts = [...loadedPosts];
+        postAdapter.upsertMany(state, loadedPosts);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
@@ -127,7 +128,7 @@ const postSlice = createSlice({
           eyes: 0,
         };
 
-        state.posts.push(action.payload);
+        postAdapter.addOne(state, action.payload);
       })
       .addCase(UpdatePost.fulfilled, (state, action) => {
         if (!action.payload?.id) {
@@ -135,32 +136,35 @@ const postSlice = createSlice({
           console.log(action.payload);
           return;
         }
-        const { id } = action.payload;
-        action.payload.date = new Date().toISOString();
-        const posts = state.posts.filter((post) => post.id !== id);
-        state.posts = [...posts, action.payload];
+
+        postAdapter.upsertOne(state, action.payload.id);
       })
+
       .addCase(DeletePost.fulfilled, (state, action) => {
         if (!action.payload?.id) {
           console.log("could not complete delete");
           console.log(action.payload);
           return;
         }
-        const { id } = action.payload;
-        action.payload.date = new Date().toISOString();
-        const posts = state.posts.filter((post) => post.id !== id);
-        state.posts = [...posts];
+
+        postAdapter.removeOne(state, action.payload.id);
       });
   },
 });
 
 export default postSlice.reducer;
-export const allPosts = (state) => state.posts.posts;
 
+export const {
+  selectAll: allPosts,
+  selectById: selectPostById,
+  selectIds: selectPostIds,
+} = postAdapter.getSelectors((state) => state.posts);
 export const allPostsStatus = (state) => state.posts.status;
 export const allPostsError = (state) => state.posts.error;
 export const getCount = (state) => state.posts.count;
-export const selectPostById = (state, postId) =>
-  state.posts.posts.find((post) => post.id === postId);
 
+export const selectPostsByUser = createSelector(
+  [allPosts, (state, userId) => userId],
+  (posts, userId) => posts.filter((post) => post.userId === userId)
+);
 export const { reactionsAdded, increaseCount } = postSlice.actions;
