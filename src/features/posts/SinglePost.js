@@ -1,13 +1,14 @@
-import { useSelector, useDispatch } from "react-redux";
-import { selectPostById, DeletePost } from "./postSlice";
+import { useSelector } from "react-redux";
+import { selectPostById } from "./postSlice";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 import { useParams, Link, useNavigate } from "react-router-dom";
-
+import { useDeletePostMutation } from "./postSlice";
 const SinglePost = () => {
+  const [deletePost] = useDeletePostMutation();
   const { postId } = useParams();
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const post = useSelector((state) => selectPostById(state, Number(postId)));
@@ -19,8 +20,8 @@ const SinglePost = () => {
       </section>
     );
   }
-  const deletePost = () => {
-    dispatch(DeletePost({ id: post.id }));
+  const DeletePost = async () => {
+    await deletePost({ id: post.id }).unwrap();
     navigate("/");
   };
 
@@ -34,7 +35,7 @@ const SinglePost = () => {
       >
         Edit Post
       </Link>
-      <button onClick={deletePost} className="ml-6 text-red-400 underline">
+      <button onClick={DeletePost} className="ml-6 text-red-400 underline">
         Delete Post
       </button>
       <br />
