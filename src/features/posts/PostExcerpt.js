@@ -8,23 +8,24 @@ import { selectPostById } from "./postSlice";
 
 const PostExcerpt = ({ postId }) => {
   const post = useSelector((state) => selectPostById(state, postId));
+
   if (!post) {
     return <p>Post not found!</p>;
   }
   return (
     <article>
       <h3 className="font-bold text-2xl">{post?.title}</h3>
-      <p>{post?.body.substring(0, 50)}</p>
-      <Link to={`/post/${post?.id}`} className="text-red-500 italic underline">
+      <p>{post?.body?.substring(0, 50)}...</p>
+      <Link to={`/post/${post.id}`} className="text-red-500 italic underline">
         Read more..
       </Link>
       <div>
-        <PostAuthor userId={post?.userId} />
-        <TimeAgo timestamp={post?.date} />
+        <PostAuthor userId={post.userId} />
+        <TimeAgo timestamp={post.date} />
         <ReactionButtons post={post} />
       </div>
     </article>
   );
 };
 
-export default PostExcerpt;
+export default React.memo(PostExcerpt);
