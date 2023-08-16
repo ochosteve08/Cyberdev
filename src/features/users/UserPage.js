@@ -2,15 +2,18 @@ import React from "react";
 import { selectUserById } from "./userSlice";
 import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
-import { selectPostsByUser } from "../posts/postSlice";
-
+import { useGetPostsByUserIdQuery } from "../posts/postSlice";
 const UserPage = () => {
   const { userId } = useParams();
   const user = useSelector((state) => selectUserById(state, Number(userId)));
 
-  const postsForUser = useSelector((state) =>
-    selectPostsByUser(state, Number(userId))
-  );
+  const {
+    data: postsForUser,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetPostsByUserIdQuery(userId);
 
   if (!user) {
     return (
@@ -19,18 +22,29 @@ const UserPage = () => {
       </section>
     );
   }
-  const postTitles = postsForUser.map((post) => (
-    <li key={post.id}>
-      <Link className="underline pl-4 " to={`/post/${post.id}`}>
-        {post.title}
-      </Link>
-    </li>
-  ));
+
+  let content;
+  if (isLoading) {
+    content = <div>Loading...</div>;
+  }
+  if (isSuccess) {
+    const { ids, entities } = postsForUser;
+    content = ids.map((id) => (
+      <li key={id}>
+        <Link className="underline pl-4 " to={`/post/${id}`}>
+          {entities[id].title}
+        </Link>
+      </li>
+    ));
+  }
+  if (isError) {
+    content = <div>{error}</div>;
+  }
 
   return (
     <section>
       <h2>{user?.name}</h2>
-      <ol class="list-decimal list-inside ">{postTitles}</ol>
+      <ol class="list-decimal list-inside ">{content}</ol>
     </section>
   );
 };
