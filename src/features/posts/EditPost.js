@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { UpdatePost } from "./postSlice";
+import { useSelector } from "react-redux";
 import { allUsers } from "../users/userSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectPostById } from "./postSlice";
-
+import { useUpdatePostMutation } from "./postSlice";
 const EditPost = () => {
+  const [UpdatePost, { isLoading }] = useUpdatePostMutation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const { postId } = useParams();
   const post = useSelector((state) => selectPostById(state, Number(postId)));
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.body);
   const [userId, setUserId] = useState(post.userId);
   const users = useSelector(allUsers);
-  const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
   if (!post) {
     return (
@@ -24,34 +23,27 @@ const EditPost = () => {
     );
   }
 
-  const canSave =
-    [title, content, userId].every(Boolean) && addRequestStatus === "idle";
+  const canSave = [title, content, userId].every(Boolean) && !isLoading;
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (canSave) {
       try {
-        setAddRequestStatus("pending");
-        dispatch(
-          UpdatePost({
-            id: post.id,
-            title,
-            body: content,
-            reactions: post.reactions,
-            userId,
-          })
-        ).unwrap();
+        await UpdatePost({
+          id: post.id,
+          title,
+          body: content,
+          reactions: post.reactions,
+          userId,
+        }).unwrap();
         setTitle("");
         setContent("");
         setUserId("");
       } catch (error) {
         console.error("failed to edit post", error);
-      } finally {
-        setAddRequestStatus("idle");
       }
     }
     navigate(`/post/${postId}`);
- 
   };
   const userOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
