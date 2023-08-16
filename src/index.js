@@ -4,10 +4,10 @@ import "./index.css";
 import App from "./App";
 import store from "./app/store";
 import { Provider } from "react-redux";
-import { fetchUsers } from "./features/users/userSlice";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { fetchPosts } from "./features/posts/postSlice";
-store.dispatch(fetchUsers());
+import { extendedApiSlice } from "./features/posts/postSlice";
+store.dispatch(extendedApiSlice.endpoints.getPosts.initiate());
 store.dispatch(fetchPosts());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
