@@ -91,7 +91,7 @@ const postSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // adding date and reactions
+
         let min = 1;
         const loadedPosts = action.payload.map((post) => {
           post.date = sub(new Date(), { minutes: min++ }).toISOString();
@@ -120,7 +120,7 @@ const postSlice = createSlice({
           rocket: 0,
           eyes: 0,
         };
-        console.log(action.payload);
+
         postAdapter.addOne(state, action.payload);
       })
       .addCase(UpdatePost.fulfilled, (state, action) => {
@@ -129,8 +129,8 @@ const postSlice = createSlice({
           console.log(action.payload);
           return;
         }
-
-        postAdapter.upsertOne(state, action.payload.id);
+        console.log(action.payload);
+        postAdapter.upsertOne(state, action.payload);
       })
 
       .addCase(DeletePost.fulfilled, (state, action) => {
