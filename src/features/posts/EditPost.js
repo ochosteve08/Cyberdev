@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { selectPostById } from "./postSlice";
 import { useUpdatePostMutation } from "./postSlice";
 const EditPost = () => {
-  const [UpdatePost, { isLoading }] = useUpdatePostMutation();
+  const [updatePost, { isLoading }] = useUpdatePostMutation();
   const navigate = useNavigate();
 
   const { postId } = useParams();
@@ -29,7 +29,7 @@ const EditPost = () => {
     event.preventDefault();
     if (canSave) {
       try {
-        await UpdatePost({
+        await updatePost({
           id: post.id,
           title,
           body: content,
