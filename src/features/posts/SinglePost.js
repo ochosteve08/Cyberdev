@@ -21,8 +21,12 @@ const SinglePost = () => {
     );
   }
   const DeletePost = async () => {
-    await deletePost({ id: post.id }).unwrap();
-    navigate("/");
+    try {
+      await deletePost({ id: post.id });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
