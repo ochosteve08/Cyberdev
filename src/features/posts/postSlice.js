@@ -9,7 +9,7 @@ import axios from "axios";
 
 const POST_URL = "https://jsonplaceholder.typicode.com/posts";
 const postAdapter = createEntityAdapter({
-  sortComparer: (a, b) => a.date.localeCompare(b.date),
+  sortComparer: (a, b) => b.date.localeCompare(a.date),
 });
 
 const initialState = postAdapter.getInitialState({
@@ -111,13 +111,6 @@ const postSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
-        const sortedPosts = state.posts.sort((a, b) => {
-          if (a.id > b.id) return 1;
-          if (a.id < b.id) return -1;
-          return 0;
-        });
-        action.payload.id = sortedPosts[sortedPosts.length - 1].id + 1;
-
         action.payload.userId = Number(action.payload.userId);
         action.payload.date = new Date().toISOString();
         action.payload.reactions = {
@@ -127,7 +120,7 @@ const postSlice = createSlice({
           rocket: 0,
           eyes: 0,
         };
-
+        console.log(action.payload);
         postAdapter.addOne(state, action.payload);
       })
       .addCase(UpdatePost.fulfilled, (state, action) => {
