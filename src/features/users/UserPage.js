@@ -1,11 +1,10 @@
-import React from "react";
-import { selectUserById } from "./userSlice";
-import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { useGetPostsByUserIdQuery } from "../posts/postSlice";
+import { useGetUsersQuery } from "./userSlice";
+
 const UserPage = () => {
   const { userId } = useParams();
-  const user = useSelector((state) => selectUserById(state, Number(userId)));
+  // const user = useSelector((state) => selectUserById(state, Number(userId)));
 
   const {
     data: postsForUser,
@@ -14,6 +13,22 @@ const UserPage = () => {
     isError,
     error,
   } = useGetPostsByUserIdQuery(userId);
+
+  const {
+    user,
+    isLoading: isLoadingUser,
+    isSuccess: isSuccessUser,
+    isError: isErrorUser,
+    error: errorUser,
+  } = useGetUsersQuery("getUsers", {
+    selectFromResult: ({ data, isLoading, isSuccess, isError, error }) => ({
+      user: data?.entities[userId],
+      isLoading,
+      isSuccess,
+      isError,
+      error,
+    }),
+  });
 
   if (!user) {
     return (
@@ -44,7 +59,7 @@ const UserPage = () => {
   return (
     <section>
       <h2>{user?.name}</h2>
-      <ol class="list-decimal list-inside ">{content}</ol>
+      <ol className="list-decimal list-inside ">{content}</ol>
     </section>
   );
 };

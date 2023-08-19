@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { allUsers } from "../users/userSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectPostById } from "./postSlice";
 import { useUpdatePostMutation } from "./postSlice";
+import { useGetUsersQuery } from "../users/userSlice";
+
 const EditPost = () => {
   const [updatePost, { isLoading }] = useUpdatePostMutation();
   const navigate = useNavigate();
 
   const { postId } = useParams();
   const post = useSelector((state) => selectPostById(state, Number(postId)));
-  const [title, setTitle] = useState(post.title);
-  const [content, setContent] = useState(post.body);
-  const [userId, setUserId] = useState(post.userId);
-  const users = useSelector(allUsers);
+  const [title, setTitle] = useState(post?.title);
+  const [content, setContent] = useState(post?.body);
+  const [userId, setUserId] = useState(post?.userId);
+  const { data: users, isSuccess } = useGetUsersQuery("getUsers");
 
   if (!post) {
     return (
@@ -45,11 +46,15 @@ const EditPost = () => {
     }
     navigate(`/post/${postId}`);
   };
-  const userOptions = users.map((user) => (
-    <option key={user.id} value={user.id}>
-      {user.name}
-    </option>
-  ));
+
+  let userOptions;
+  if (isSuccess) {
+    userOptions = users.ids.map((userId) => (
+      <option key={userId} value={userId}>
+        {users.entities[userId].name}
+      </option>
+    ));
+  }
 
   return (
     <>

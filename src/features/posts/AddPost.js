@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { allUsers } from "../users/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useAddNewPostMutation } from "./postSlice";
+import { useGetUsersQuery } from "../users/userSlice";
 
 const AddPost = () => {
   const navigate = useNavigate();
@@ -10,7 +9,7 @@ const AddPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
-  const users = useSelector(allUsers);
+  const { data: users, isSuccess } = useGetUsersQuery("getUsers");
 
   const canSave = [title, content, userId].every(Boolean) && !isLoading;
 
@@ -28,11 +27,15 @@ const AddPost = () => {
     }
     navigate("/");
   };
-  const userOptions = users.map((user) => (
-    <option key={user.id} value={user.id}>
-      {user.name}
-    </option>
-  ));
+
+  let userOptions;
+  if (isSuccess) {
+    userOptions = users.ids.map((userId) => (
+      <option key={userId} value={userId}>
+        {users.entities[userId].name}
+      </option>
+    ));
+  }
 
   return (
     <section>
