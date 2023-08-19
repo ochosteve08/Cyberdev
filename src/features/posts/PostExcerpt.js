@@ -13,7 +13,7 @@ const PostExcerpt = ({ postId }) => {
     return <p>Post not found!</p>;
   }
   return (
-    <article>
+    <article >
       <h3 className="font-bold text-2xl">{post?.title}</h3>
       <p>{post?.body?.substring(0, 50)}...</p>
       <Link to={`/post/${post.id}`} className="text-red-500 italic underline">

@@ -6,6 +6,7 @@ import React from "react";
 const PostList = () => {
   const { isLoading, isSuccess, isError, error } = useGetPostsQuery();
   const orderedPostIds = useSelector(selectPostIds);
+  
 
   let content;
   if (isLoading) {

@@ -1,13 +1,16 @@
-import { useSelector } from "react-redux";
-import { allUsers } from "../users/userSlice";
 import { Link } from "react-router-dom";
+import { useGetUsersQuery } from "../users/userSlice";
+
 const PostAuthor = ({ userId }) => {
-  const users = useSelector(allUsers);
-  const author = users.find((user) => user.id === Number(userId));
+  const { user: author } = useGetUsersQuery("getUsers", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[userId],
+    }),
+  });
 
   return (
     <span>
-      By{" "}
+      By
       {author ? (
         <Link to={`user/${userId}`}>{author.name}</Link>
       ) : (

@@ -146,8 +146,9 @@ export const selectPostsResult = extendedApiSlice.endpoints.getPosts.select();
 //creates a memoized selector
 const selectPostData = createSelector(
   selectPostsResult,
-  (postsResult) => postsResult.data //normalize state object with ids and entities
+  (postsResult) => postsResult.data 
 );
+
 
 export const {
   selectAll: allPosts,
