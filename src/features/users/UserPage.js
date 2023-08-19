@@ -39,10 +39,9 @@ const UserPage = () => {
   }
 
   let content;
-  if (isLoading) {
-    content = <div>Loading...</div>;
-  }
-  if (isSuccess) {
+  if (isLoading || isLoadingUser) {
+    content = <p>Loading...</p>;
+  } else if (isSuccess && isSuccessUser) {
     const { ids, entities } = postsForUser;
     content = ids.map((id) => (
       <li key={id}>
@@ -51,9 +50,8 @@ const UserPage = () => {
         </Link>
       </li>
     ));
-  }
-  if (isError) {
-    content = <div>{error}</div>;
+  } else if (isError || isErrorUser) {
+    content = <p>{error || errorUser}</p>;
   }
 
   return (
